@@ -2,20 +2,25 @@ const inputBox = document.getElementById('input-box');
 const listContainer = document.getElementById('list-container');
 
 function addTask() {
-    if(inputBox.value === ''){
-        alert("You must write something");
+    const inputValue = inputBox.value.trim();
+    
+    if (inputValue === '') {
+      alert("You must write something");
+      return;
     }
-    else{
-        let li = document.createElement("li");
-        li.innerHTML = inputBox.value;
-        listContainer.appendChild(li);
-        let span = document.createElement('span');
-        span.innerHTML = "\u00d7";
-        li.appendChild(span);
-    }
+    
+    const li = document.createElement("li");
+    li.textContent = inputValue;
+    
+    const span = document.createElement('span');
+    span.textContent = "\u00d7";
+    
+    li.appendChild(span);
+    listContainer.appendChild(li);
+    
     inputBox.value = '';
     saveData();
-}
+  }
 
 listContainer.addEventListener("click",function(e) {
     if(e.target.tagName === "LI"){
@@ -36,3 +41,10 @@ function showTask() {
     listContainer.innerHTML = localStorage.getItem("data");
 }
 showTask();
+
+//Eventlister for Enter
+inputBox.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' && inputBox.value.trim() !== '') {
+      addTask();
+    }
+  });
